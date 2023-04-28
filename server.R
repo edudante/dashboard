@@ -15,7 +15,7 @@ shinyServer(function(input, output, session){
   dt_tasks <- reactive({ raw_data_tasks })
   dt_projects <- reactive({ raw_data_projects })
   
-    
+
   vals <- reactiveValues()
   
 
@@ -48,7 +48,7 @@ shinyServer(function(input, output, session){
   ## Filter the data in the Tasks table based on the selection made on the projects table
   
           output$selected <- renderPrint({ 
-            #input$Projects$changes$changes[[1]][[4]]
+            input$Projects$changes$changes[[1]][[4]]
             input$Projects_select$select$r
             
           })
@@ -90,16 +90,16 @@ shinyServer(function(input, output, session){
   
   ##------------------------------------------------------------------------------------------------------------------------------------------------------
   # on click of button the file will be saved to the working directory
-  observeEvent(input$saveBtnProjects, 
+  #observeEvent(input$saveBtnProjects, 
                #write.csv(hot_to_r(input$Projects), file = "./Data/project_tracker.csv",row.names = FALSE)
-               saveRDS(hot_to_r(input$Projects),"Projects.rds")
-               )
+               #saveRDS(hot_to_r(input$Projects),"Projects.rds")
+              # )
   
   
-  observeEvent(input$saveBtnTasks, 
+  #observeEvent(input$saveBtnTasks, 
                #write.csv(hot_to_r(input$Tasks), file = "./Data/task_tracker.csv",row.names = FALSE)
-               saveRDS(hot_to_r(input$Projects),"Projects.rds")
-               )
+               #saveRDS(hot_to_r(input$Projects),"Projects.rds")
+             #  )
   
   
   ##------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -231,10 +231,10 @@ shinyServer(function(input, output, session){
   output$Completed <- renderValueBox({
     
     completed_projects <- dt_projects() %>%
-                            filter(dt_projects()$PROJECT.STATUS == "Completed")
+                            filter(dt_projects()$AUDIT == "Sim")
     
     valueBox(value = tags$p(NROW(completed_projects), style = "font-size: 150%;"), 
-              "Projects Completed ", icon = icon("stack-overflow"), color = "green")
+              "Projetos Aprovados ", icon = icon("stack-overflow"), color = "green")
   })
   
   
@@ -244,7 +244,7 @@ shinyServer(function(input, output, session){
       filter(dt_projects()$PROJECT.STATUS == "In Progress")
     
     valueBox(value = tags$p(NROW(WIP_projects), style = "font-size: 150%;"),  
-             "Projects In Progress ", icon = icon("spinner"), color = "yellow")
+             "Projetos em Progresso", icon = icon("spinner"), color = "yellow")
   })
   
   
@@ -254,16 +254,16 @@ shinyServer(function(input, output, session){
       filter(dt_projects()$PROJECT.STATUS == "Delayed")
     
     valueBox(value = tags$p(NROW(Delayed_projects), style = "font-size: 150%;"),  
-             "Projects Delayed ", icon = icon("exclamation-triangle"), color = "teal")
+             "Projetos Atrasados", icon = icon("exclamation-triangle"), color = "teal")
   })
   
   output$OnHold <- renderValueBox({
     
     OnHold_projects <- dt_projects() %>%
-      filter(dt_projects()$PROJECT.STATUS == "On Hold")
+      filter(dt_projects()$AUDIT == "Não")
     
     valueBox(value = tags$p(NROW(OnHold_projects), style = "font-size: 150%;"),   
-             "Projects On Hold", icon = icon("fire"), color = "red")
+             "Projetos Rejeitados", icon = icon("fire"), color = "red")
   })
   
 
@@ -285,18 +285,17 @@ shinyServer(function(input, output, session){
           
     })
   
-  
+
   ##---------------Home page / Project status chart--------------------------------------------------------------
     output$Project_status <- renderPlotly({
       
       ggplot(dt_projects()) +
-        aes(x = PROJECT.TYPE, fill = PROJECT.STATUS) +
-        geom_bar(position = "dodge") +
+        aes(x = PROJECT.TYPE, fill = ) +
+        geom_bar(position = "dodge", stat = "identity") +
         scale_fill_hue() +
         coord_flip() +
         theme_bw() +
-        theme(legend.position = "none") +
-        facet_wrap(vars(PROJECT.STATUS))
+        theme(legend.position = "none")
         
     })
     
@@ -365,16 +364,16 @@ shinyServer(function(input, output, session){
   
   ##---------------Home page / Audits Tasks-------------------------------------------------  
     
-    output$Audits <- renderPlotly({
-
-      p1 <- dt_projects() %>%
-        group_by(AUDIT) %>%
-        summarise("count" = n())
-
-      fig <- p1 %>% plot_ly(labels = ~AUDIT, values = ~count)
-      fig <- fig %>% add_pie(hole = 0.6)
-      fig <- fig %>% layout(showlegend = T,xaxis = list(showgrid = T),yaxis = list(showgrid = T))
-      fig
+  output$Audits <- renderPlotly({
+    
+    p1 <- dt_projects() %>%
+      group_by(AUDIT) %>%
+      summarise("count" = n())
+    
+    fig <- p1 %>% plot_ly(labels = ~AUDIT, values = ~count)
+    fig <- fig %>% add_pie(hole = 0.6)
+    fig <- fig %>% layout(showlegend = T,xaxis = list(showgrid = T),yaxis = list(showgrid = T))
+    fig
 
 
     })

@@ -1,0 +1,13 @@
+name: div_pesq
+title: div_pesq
+username:
+account: idpc
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 8970427
+bundleId: 7143782
+url: https://idpc.shinyapps.io/div_pesq/
+when: 1682607735.72849
+lastSyncTime: 1682607735.72849
+asMultiple: FALSE
+asStatic: FALSE

@@ -1,0 +1,13 @@
+name: dashboard_pesq
+title: dashboard_pesq
+username:
+account: idpc
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 8970846
+bundleId: 7149405
+url: https://idpc.shinyapps.io/dashboard_pesq/
+when: 1682691781.22059
+lastSyncTime: 1682691781.2206
+asMultiple: FALSE
+asStatic: FALSE

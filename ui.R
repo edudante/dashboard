@@ -17,28 +17,29 @@ library(supercaliheatmapwidget)
 
 dashboardPage(
   dashboardHeader(dropdownMenuOutput("dropdownmenu"),
-                  title = "Project Management",dropdownMenuOutput("msgOutput")
+                  title = "Divisão de Pesquisa",dropdownMenuOutput("msgOutput")
   ),
   
   
   dashboardSidebar(
     sidebarMenu(id= "tabs", width = 350,
                 menuItem("Home", icon = icon("home"), tabName = "home"),
-                menuItem("Projects & Tasks", icon = icon("tasks"), tabName = "projects_tasks"),
+                menuItem("Projects & Tasks", icon = icon("tasks"), tabName = "projects_tasks")
+                #menuItem("Generate Report", tabName = "sectors", icon = icon("download"),
+                         #radioButtons('format', 'Document format', c('PDF', 'Word'),inline = FALSE, selected = 1),
+                         #downloadButton("report", "Download Report", class = "butt"),
+                         #tags$head(tags$style(".butt{color: blue !important;}"))))
                 #menuItem("Team", icon = icon("users"), tabName = "team"),
                 #menuItem("Timesheets", icon = icon("clock"), tabName = "timesheets"),
-                menuItem("Do it Yourself", icon = icon("hand-pointer"), tabName = "doitYourself"),
-                menuItem("Help", icon = icon("hands-helping"), tabName = "help"),
-                menuItem("Generate Report", tabName = "sectors", icon = icon("download"),
-                         radioButtons('format', 'Document format', c('PDF', 'Word'),inline = FALSE, selected = 1),
-                         downloadButton("report", "Download Report", class = "butt"),
-                         tags$head(tags$style(".butt{color: blue !important;}"))))
+                #menuItem("Do it Yourself", icon = icon("hand-pointer"), tabName = "doitYourself"),
+                #menuItem("Help", icon = icon("hands-helping"), tabName = "help"),
     
+    )
   ),
   dashboardBody(
-    useShinyalert(), 
+    #useShinyalert(), 
     useShinyjs(),
-    shinyjs::extendShinyjs(text = "shinyjs.refresh = function() { location.reload(); }"),
+    shinyjs::extendShinyjs(text = "shinyjs.refresh = function() { location.reload(); }", functions = c()),
     
 
     #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------      
@@ -72,14 +73,14 @@ dashboardPage(
                 
                 fluidRow(
                   
-                  box(plotlyOutput("Project_category"), width = 4,solidHeader = TRUE, status = "primary", title = "Research Areas", collapsible = TRUE),
-                  box(plotlyOutput("Project_status"), width = 8,solidHeader = TRUE, status = "primary", title = "Project Status", collapsible = TRUE),
-                  box(plotlyOutput("Complexity"), width = 4,solidHeader = TRUE, status = "primary", title = "Project Complexity", collapsible = TRUE),
-                  box(plotlyOutput("Audits"), width = 4,solidHeader = TRUE, status = "primary", title = "Audit Status", collapsible = TRUE),
-                  box(plotlyOutput("Proj_task_cnt"), width = 4,solidHeader = TRUE, status = "primary", title = "Project & Tasks", collapsible = TRUE),
-                  box(DTOutput("upcoming_deadlines"), width = 6,solidHeader = TRUE, status = "primary", title = "Upcoming Deadlines", collapsible = TRUE),
-                  box(DTOutput("overdue_tasks"), width = 6,solidHeader = TRUE, status = "primary", title = "Overdue Tasks", collapsible = TRUE),
-                  box(DTOutput("Overview"), width = 12,solidHeader = TRUE, status = "primary", title = "Projects Overview", collapsible = TRUE)
+                  box(plotlyOutput("Project_status"), width = 12,solidHeader = FALSE, status = "primary", title = "Status do Projeto", collapsible = TRUE),
+                  box(plotlyOutput("Project_category"), width = 4,solidHeader = FALSE, status = "primary", title = "Tipo de Projeto", collapsible = TRUE),
+                  box(plotlyOutput("Complexity"), width = 4,solidHeader = FALSE, status = "primary", title = "Participação", collapsible = TRUE),
+                  box(plotlyOutput("Audits"), width = 4,solidHeader = FALSE, status = "primary", title = "Centro Aprovado", collapsible = TRUE),
+                  #box(plotlyOutput("Proj_task_cnt"), width = 4,solidHeader = TRUE, status = "primary", title = "Project & Tasks", collapsible = TRUE),
+                  box(DTOutput("upcoming_deadlines"), width = 5,solidHeader = FALSE, status = "primary", title = "Deadlines", collapsible = TRUE),
+                  box(DTOutput("overdue_tasks"), width = 6,solidHeader = FALSE, status = "primary", title = "Pendências", collapsible = TRUE),
+                  box(DTOutput("Overview"), width = 12,solidHeader = FALSE, status = "primary", title = "Projetos Detalhados", collapsible = TRUE)
                   
                   
                 )

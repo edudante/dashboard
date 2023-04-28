@@ -1,0 +1,13 @@
+name: dashboard_funcionando
+title: dashboard_funcionando
+username:
+account: idpc
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 8970149
+bundleId: 7143612
+url: https://idpc.shinyapps.io/dashboard_funcionando/
+when: 1682605536.01995
+lastSyncTime: 1682605536.01996
+asMultiple: FALSE
+asStatic: FALSE
